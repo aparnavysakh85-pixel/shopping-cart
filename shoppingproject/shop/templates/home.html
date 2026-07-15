@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shopping Cart</title>
+
+    <style>
+
+        body{
+            font-family: Arial;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+
+        h1{
+            text-align: center;
+        }
+
+        .products{
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .card{
+            width: 250px;
+            border: 1px solid gray;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .card img{
+            width: 200px;
+            height: 150px;
+        }
+
+        button{
+            padding:10px;
+            background:green;
+            color:white;
+            border:none;
+            cursor:pointer;
+        }
+
+        button:hover{
+            background:darkgreen;
+        }
+
+        .cart{
+            margin-top:40px;
+            border-top:2px solid black;
+            padding-top:20px;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+        }
+
+        table,th,td{
+            border:1px solid gray;
+        }
+
+        th,td{
+            padding:10px;
+            text-align:center;
+        }
+
+        .remove{
+            background:red;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<h1>Simple Shopping Cart</h1>
+
+<h2>Available Products</h2>
+
+<div class="products">
+
+{% for product in products %}
+
+<div class="card">
+
+    <img src="{{ product.image }}" alt="{{ product.name }}">
+
+    <h3>{{ product.name }}</h3>
+
+    <p>{{ product.description }}</p>
+
+    <h3>₹ {{ product.price }}</h3>
+
+    <a href="{% url 'add_to_cart' product.id %}">
+        <button>Add to Cart</button>
+    </a>
+
+</div>
+
+{% empty %}
+
+<p>No Products Available.</p>
+
+{% endfor %}
+
+</div>
+
+<hr>
+
+<div class="cart">
+
+<h2>Your Cart</h2>
+
+{% if cart %}
+
+<table>
+
+<tr>
+
+<th>Product</th>
+
+<th>Price</th>
+
+<th>Action</th>
+
+</tr>
+
+{% for item in cart %}
+
+<tr>
+
+<td>{{ item.name }}</td>
+
+<td>₹ {{ item.price }}</td>
+
+<td>
+
+<a href="{% url 'remove_from_cart' item.id %}">
+<button class="remove">Remove</button>
+</a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+<h2>Total : ₹ {{ total }}</h2>
+
+{% else %}
+
+<h3>Your Cart is Empty</h3>
+
+{% endif %}
+
+</div>
+
+</body>
+</html>
